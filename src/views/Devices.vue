@@ -166,7 +166,7 @@ const fetchDevices = async () => {
 
 const fetchMeasurements = async (sensorId) => {
   try {
-    const response = await axiosInstance.get(`api/measurement/get/${sensorId}`);
+    const response = await axiosInstance.get(`/measurement/get/${sensorId}`);
     return response.data;
   } catch (error) {
     toast.value.add({severity: 'error', summary: 'Error', detail: 'Failed to fetch measurements', life: 3000});
@@ -186,7 +186,7 @@ const fetchSubscribedDevices = async () => {
 const toggleMeasurements = async (device) => {
   if (!device.showMeasurements) {
     try {
-      const response = await axiosInstance.get(`api/measurement/get/${device.sensorId}`);
+      const response = await axiosInstance.get(`/measurement/get/${device.sensorId}`);
       device.measurements = response.data;
       device.showMeasurements = true;
     } catch (error) {
