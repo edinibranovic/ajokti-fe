@@ -65,7 +65,7 @@
 
 <script setup>
 import {onMounted, ref} from 'vue'
-import axios from 'axios'
+import axiosInstance from 'axios';
 import {useRouter} from 'vue-router'
 import {ChartBarIcon, DeviceTabletIcon, HomeIcon, UserCircleIcon} from '@heroicons/vue/24/outline'
 import Toast from 'primevue/toast';
@@ -83,7 +83,7 @@ const checkLoginStatus = async () => {
   if (sessionId) {
     isLoggedIn.value = true
     try {
-      const response = await axios.post('api/user/getRole', {sessionId})
+      const response = await axiosInstance.post('api/user/getRole', {sessionId})
       role.value = response.data.role
     } catch (error) {
       console.error('Error fetching role:', error)

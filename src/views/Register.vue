@@ -42,7 +42,7 @@
 
 <script setup>
 import {ref} from 'vue'
-import axios from 'axios'
+import axiosInstance from 'axios';
 import {useRouter} from 'vue-router'
 import {useField, useForm} from 'vee-validate'
 import * as yup from 'yup'
@@ -71,7 +71,7 @@ const toast = ref(null);
 const register = async (values) => {
   isSubmitting.value = true
   try {
-    const response = await axios.post('/api/user/register', {
+    const response = await axiosInstance.post('/api/user/register', {
       email: values.email,
       password: values.password,
     })

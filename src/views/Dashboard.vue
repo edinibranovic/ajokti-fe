@@ -136,7 +136,7 @@
 
 <script setup>
 import {onMounted, ref} from 'vue'
-import axios from 'axios'
+import axiosInstance from 'axios';
 import {useRouter} from 'vue-router'
 import {
   ArrowDownCircleIcon,
@@ -184,7 +184,7 @@ const onToastTransitionEnd = () => {
 const fetchDevices = async () => {
   try {
     const sessionId = localStorage.getItem('sessionId')
-    const response = await axios.post('/api/user/dashboard', {sessionId})
+    const response = await axiosInstance.post('/api/user/dashboard', {sessionId})
     devices.value = await Promise.all(response.data.map(async (device) => ({
       sensorId: device.sensorId ?? 'Not available',
       name: device.name ?? 'Not available',
@@ -205,7 +205,7 @@ const fetchDevices = async () => {
       showMeasurements: false,
       measurements: await fetchMeasurements(device.sensorId)
     })))
-    const roleResponse = await axios.post('/api/user/getRole', {sessionId}, {baseURL: '/'})
+    const roleResponse = await axiosInstance.post('/api/user/getRole', {sessionId}, {baseURL: '/'})
     isAdmin.value = roleResponse.data.role === 'ADMIN'
     showToast('Devices fetched successfully', 'success')
   } catch (error) {
@@ -216,7 +216,7 @@ const fetchDevices = async () => {
 
 const fetchMeasurements = async (sensorId) => {
   try {
-    const response = await axios.get(`/api/measurement/get/${sensorId}`)
+    const response = await axiosInstance.get(`/api/measurement/get/${sensorId}`)
     return response.data
   } catch (error) {
     console.error('Failed to fetch measurements:', error)
@@ -234,7 +234,7 @@ const logout = () => {
 const unsubscribe = async (deviceId) => {
   try {
     const sessionId = localStorage.getItem('sessionId')
-    await axios.post('/api/subscription/unsubscribe', {sessionId, sensorId: deviceId})
+    await axiosInstance.post('/api/subscription/unsubscribe', {sessionId, sensorId: deviceId})
     await fetchDevices()
     showToast('Unsubscribed successfully', 'success')
   } catch (error) {
@@ -246,7 +246,7 @@ const unsubscribe = async (deviceId) => {
 const removeDevice = async (deviceId) => {
   try {
     const sessionId = localStorage.getItem('sessionId')
-    await axios.post('/api/sensor/remove', {sessionId, sensorId: deviceId})
+    await axiosInstance.post('/api/sensor/remove', {sessionId, sensorId: deviceId})
     await fetchDevices()
     showToast('Device removed successfully', 'success')
   } catch (error) {
@@ -258,7 +258,7 @@ const removeDevice = async (deviceId) => {
 const getDeviceKey = async (deviceId) => {
   try {
     const sessionId = localStorage.getItem('sessionId')
-    const response = await axios.post('/api/sensor/getKey', {sessionId, sensorId: deviceId})
+    const response = await axiosInstance.post('/api/sensor/getKey', {sessionId, sensorId: deviceId})
     sensorKey.value = response.data.key
     deviceIdForKey.value = deviceId
     keyDialogVisible.value = true
@@ -281,7 +281,7 @@ const showAddDeviceDialog = () => {
 const confirmAddDevice = async () => {
   try {
     const sessionId = localStorage.getItem('sessionId')
-    await axios.post('/api/sensor/add', {sessionId, name: newDeviceName.value})
+    await axiosInstance.post('/api/sensor/add', {sessionId, name: newDeviceName.value})
     addDeviceDialogVisible.value = false
     await fetchDevices()
     showToast('Device added successfully', 'success')
@@ -294,7 +294,7 @@ const confirmAddDevice = async () => {
 const toggleMeasurements = async (device) => {
   if (!device.showMeasurements) {
     try {
-      const response = await axios.get(`/api/measurement/get/${device.sensorId}`)
+      const response = await axiosInstance.get(`/api/measurement/get/${device.sensorId}`)
       device.measurements = response.data
       device.showMeasurements = true
     } catch (error) {
@@ -308,7 +308,7 @@ const toggleMeasurements = async (device) => {
 
 const refreshMeasurements = async (device) => {
   try {
-    const response = await axios.get(`/api/measurement/get/${device.sensorId}`)
+    const response = await axiosInstance.get(`/api/measurement/get/${device.sensorId}`)
     device.measurements = response.data
     showToast('Measurements refreshed successfully', 'success')
   } catch (error) {
