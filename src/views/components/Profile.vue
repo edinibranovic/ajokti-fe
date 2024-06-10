@@ -27,7 +27,7 @@ const toast = ref(null);
 
 const fetchRole = async () => {
   try {
-    const response = await axiosInstance.post('/api/user/getRole', {sessionId: localStorage.getItem('sessionId')});
+    const response = await axiosInstance.post('/user/getRole', {sessionId: localStorage.getItem('sessionId')});
     role.value = response.data.role;
   } catch (error) {
     toast.value.add({severity: 'error', summary: 'Error', detail: 'Failed to fetch role', life: 3000});
@@ -49,7 +49,7 @@ const removeAccount = async () => {
   try {
     const password = prompt('Please enter your password to confirm account removal:');
     if (password) {
-      const response = await axiosInstance.post('/api/user/delete', {
+      const response = await axiosInstance.post('/user/delete', {
         sessionId: localStorage.getItem('sessionId'),
         password,
       });

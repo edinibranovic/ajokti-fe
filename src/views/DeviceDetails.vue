@@ -175,7 +175,7 @@ const fetchDevice = async () => {
     const sessionId = localStorage.getItem('sessionId')
     if (sessionId) {
       isLoggedIn.value = true
-      const response = await axiosInstance.post('/api/user/dashboard', {sessionId})
+      const response = await axiosInstance.post('/user/dashboard', {sessionId})
       const deviceData = response.data.find(device => device.sensorId === deviceId)
       device.value = {
         ...deviceData,
@@ -183,7 +183,7 @@ const fetchDevice = async () => {
         color: getRandomColor()
       }
       await fetchSubscribedDevices(sessionId)
-      const roleResponse = await axiosInstance.post('/api/user/getRole', {sessionId}, {baseURL: '/'})
+      const roleResponse = await axiosInstance.post('/user/getRole', {sessionId}, {baseURL: '/'})
       isAdmin.value = roleResponse.data.role === 'ADMIN'
       showToast('Device details fetched successfully', 'success')
     } else {
@@ -213,7 +213,7 @@ const fetchMeasurements = async (deviceId) => {
 
 const fetchSubscribedDevices = async (sessionId) => {
   try {
-    const response = await axiosInstance.post('/api/user/dashboard', {sessionId})
+    const response = await axiosInstance.post('/user/dashboard', {sessionId})
     subscribedDevices.value = response.data.map(device => device.sensorId)
   } catch (error) {
     console.error('Failed to fetch subscribed devices:', error)
@@ -244,7 +244,7 @@ const goBack = () => {
 const subscribe = async (sensorId) => {
   try {
     const sessionId = localStorage.getItem('sessionId')
-    const response = await axiosInstance.post('/api/subscription/subscribe', {sessionId, sensorId: deviceId})
+    const response = await axiosInstance.post('/subscription/subscribe', {sessionId, sensorId: deviceId})
     showToast('Subscribed successfully', 'success')
     subscribedDevices.value.push(sensorId)
   } catch (error) {
@@ -256,7 +256,7 @@ const subscribe = async (sensorId) => {
 const unsubscribe = async (sensorId) => {
   try {
     const sessionId = localStorage.getItem('sessionId')
-    await axiosInstance.post('/api/subscription/unsubscribe', {sessionId, sensorId: deviceId})
+    await axiosInstance.post('/subscription/unsubscribe', {sessionId, sensorId: deviceId})
     await fetchDevice()
     showToast('Unsubscribed successfully', 'success')
   } catch (error) {
@@ -268,7 +268,7 @@ const unsubscribe = async (sensorId) => {
 const removeDevice = async (sensorId) => {
   try {
     const sessionId = localStorage.getItem('sessionId')
-    await axiosInstance.post('/api/sensor/remove', {sessionId, sensorId})
+    await axiosInstance.post('/sensor/remove', {sessionId, sensorId})
     goBack()
     showToast('Device removed successfully', 'success')
   } catch (error) {
@@ -280,7 +280,7 @@ const removeDevice = async (sensorId) => {
 const getDeviceKey = async (sensorId) => {
   try {
     const sessionId = localStorage.getItem('sessionId')
-    const response = await axiosInstance.post('/api/sensor/getKey', {sessionId, sensorId})
+    const response = await axiosInstance.post('/sensor/getKey', {sessionId, sensorId})
     sensorKey.value = response.data.key
     deviceIdForKey.value = sensorId
     keyDialogVisible.value = true

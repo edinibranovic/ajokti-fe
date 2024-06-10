@@ -184,7 +184,7 @@ const onToastTransitionEnd = () => {
 const fetchDevices = async () => {
   try {
     const sessionId = localStorage.getItem('sessionId')
-    const response = await axiosInstance.post('/api/user/dashboard', {sessionId})
+    const response = await axiosInstance.post('/user/dashboard', {sessionId})
     devices.value = await Promise.all(response.data.map(async (device) => ({
       sensorId: device.sensorId ?? 'Not available',
       name: device.name ?? 'Not available',
@@ -205,7 +205,7 @@ const fetchDevices = async () => {
       showMeasurements: false,
       measurements: await fetchMeasurements(device.sensorId)
     })))
-    const roleResponse = await axiosInstance.post('/api/user/getRole', {sessionId}, {baseURL: '/'})
+    const roleResponse = await axiosInstance.post('/user/getRole', {sessionId}, {baseURL: '/'})
     isAdmin.value = roleResponse.data.role === 'ADMIN'
     showToast('Devices fetched successfully', 'success')
   } catch (error) {
@@ -234,7 +234,7 @@ const logout = () => {
 const unsubscribe = async (deviceId) => {
   try {
     const sessionId = localStorage.getItem('sessionId')
-    await axiosInstance.post('/api/subscription/unsubscribe', {sessionId, sensorId: deviceId})
+    await axiosInstance.post('/subscription/unsubscribe', {sessionId, sensorId: deviceId})
     await fetchDevices()
     showToast('Unsubscribed successfully', 'success')
   } catch (error) {
@@ -246,7 +246,7 @@ const unsubscribe = async (deviceId) => {
 const removeDevice = async (deviceId) => {
   try {
     const sessionId = localStorage.getItem('sessionId')
-    await axiosInstance.post('/api/sensor/remove', {sessionId, sensorId: deviceId})
+    await axiosInstance.post('/sensor/remove', {sessionId, sensorId: deviceId})
     await fetchDevices()
     showToast('Device removed successfully', 'success')
   } catch (error) {
@@ -258,7 +258,7 @@ const removeDevice = async (deviceId) => {
 const getDeviceKey = async (deviceId) => {
   try {
     const sessionId = localStorage.getItem('sessionId')
-    const response = await axiosInstance.post('/api/sensor/getKey', {sessionId, sensorId: deviceId})
+    const response = await axiosInstance.post('/sensor/getKey', {sessionId, sensorId: deviceId})
     sensorKey.value = response.data.key
     deviceIdForKey.value = deviceId
     keyDialogVisible.value = true
@@ -281,7 +281,7 @@ const showAddDeviceDialog = () => {
 const confirmAddDevice = async () => {
   try {
     const sessionId = localStorage.getItem('sessionId')
-    await axiosInstance.post('/api/sensor/add', {sessionId, name: newDeviceName.value})
+    await axiosInstance.post('/sensor/add', {sessionId, name: newDeviceName.value})
     addDeviceDialogVisible.value = false
     await fetchDevices()
     showToast('Device added successfully', 'success')

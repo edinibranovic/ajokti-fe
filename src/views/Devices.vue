@@ -125,7 +125,7 @@ const role = ref('');
 const fetchRole = async () => {
   if (isLoggedIn) {
     try {
-      const response = await axiosInstance.post('/api/user/getRole', {sessionId: localStorage.getItem('sessionId')});
+      const response = await axiosInstance.post('/user/getRole', {sessionId: localStorage.getItem('sessionId')});
       role.value = response.data.role;
     } catch (error) {
       toast.value.add({severity: 'error', summary: 'Error', detail: 'Failed to fetch role', life: 3000});
@@ -135,7 +135,7 @@ const fetchRole = async () => {
 
 const fetchDevices = async () => {
   try {
-    const response = await axiosInstance.get('/api/sensor/all');
+    const response = await axiosInstance.get('/sensor/all');
     devices.value = await Promise.all(response.data.map(async (device) => ({
       sensorId: device.sensorId ?? 'Not available',
       name: device.name ?? 'Not available',
@@ -176,7 +176,7 @@ const fetchMeasurements = async (sensorId) => {
 
 const fetchSubscribedDevices = async () => {
   try {
-    const response = await axiosInstance.post('/api/user/dashboard', {sessionId: localStorage.getItem('sessionId')});
+    const response = await axiosInstance.post('/user/dashboard', {sessionId: localStorage.getItem('sessionId')});
     subscribedDevices.value = response.data.map(device => device.sensorId);
   } catch (error) {
     toast.value.add({severity: 'error', summary: 'Error', detail: 'Failed to fetch subscribed devices', life: 3000});
@@ -207,7 +207,7 @@ const goToDeviceDetails = (sensorId) => {
 
 const subscribe = async (sensorId) => {
   try {
-    const response = await axiosInstance.post('/api/subscription/subscribe', {
+    const response = await axiosInstance.post('/subscription/subscribe', {
       sessionId: localStorage.getItem('sessionId'),
       sensorId
     });
@@ -220,7 +220,7 @@ const subscribe = async (sensorId) => {
 
 const unsubscribe = async (sensorId) => {
   try {
-    const response = await axiosInstance.post('/api/subscription/unsubscribe', {
+    const response = await axiosInstance.post('/subscription/unsubscribe', {
       sessionId: localStorage.getItem('sessionId'),
       sensorId
     });
@@ -246,7 +246,7 @@ const showAddDeviceDialog = () => {
 const confirmAddDevice = async () => {
   try {
     const sessionId = localStorage.getItem('sessionId');
-    await axiosInstance.post('/api/sensor/add', {sessionId, name: newDeviceName.value});
+    await axiosInstance.post('/sensor/add', {sessionId, name: newDeviceName.value});
     addDeviceDialogVisible.value = false;
     await fetchDevices();
     toast.value.add({severity: 'success', summary: 'Device Added', detail: 'Device added successfully', life: 3000});
@@ -257,7 +257,7 @@ const confirmAddDevice = async () => {
 
 const removeDevice = async (sensorId) => {
   try {
-    const response = await axiosInstance.post('/api/sensor/remove', {sessionId: localStorage.getItem('sessionId'), sensorId});
+    const response = await axiosInstance.post('/sensor/remove', {sessionId: localStorage.getItem('sessionId'), sensorId});
     toast.value.add({severity: 'error', summary: 'Device Removed', detail: response.data.message, life: 3000});
     fetchDevices();
   } catch (error) {
@@ -267,7 +267,7 @@ const removeDevice = async (sensorId) => {
 
 const readKey = async (sensorId) => {
   try {
-    const response = await axiosInstance.post('/api/sensor/getKey', {sessionId: localStorage.getItem('sessionId'), sensorId});
+    const response = await axiosInstance.post('/sensor/getKey', {sessionId: localStorage.getItem('sessionId'), sensorId});
     sensorKey.value = response.data.sensorKey;
     keyDialogVisible.value = true;
     toast.value.add({severity: 'success', summary: 'Key Read', detail: response.data.message, life: 3000});

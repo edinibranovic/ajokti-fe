@@ -44,7 +44,7 @@ const toast = ref(null)
 const login = async () => {
   isSubmitting.value = true
   try {
-    const response = await axiosInstance.post('/api/user/login', {
+    const response = await axiosInstance.post('/user/login', {
       email: email.value,
       password: password.value,
     })

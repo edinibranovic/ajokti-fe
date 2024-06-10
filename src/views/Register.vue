@@ -71,7 +71,7 @@ const toast = ref(null);
 const register = async (values) => {
   isSubmitting.value = true
   try {
-    const response = await axiosInstance.post('/api/user/register', {
+    const response = await axiosInstance.post('/user/register', {
       email: values.email,
       password: values.password,
     })

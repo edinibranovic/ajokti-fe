@@ -83,7 +83,7 @@ const checkLoginStatus = async () => {
   if (sessionId) {
     isLoggedIn.value = true
     try {
-      const response = await axiosInstance.post('/api/user/getRole', {sessionId})
+      const response = await axiosInstance.post('/user/getRole', {sessionId})
       role.value = response.data.role
     } catch (error) {
       console.error('Error fetching role:', error)
