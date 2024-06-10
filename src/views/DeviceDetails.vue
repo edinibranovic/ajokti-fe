@@ -183,7 +183,7 @@ const fetchDevice = async () => {
         color: getRandomColor()
       }
       await fetchSubscribedDevices(sessionId)
-      const roleResponse = await axiosInstance.post('/user/getRole', {sessionId}, {baseURL: '/'})
+      const roleResponse = await axiosInstance.post('/user/getRole', {sessionId})
       isAdmin.value = roleResponse.data.role === 'ADMIN'
       showToast('Device details fetched successfully', 'success')
     } else {
@@ -256,7 +256,7 @@ const subscribe = async (sensorId) => {
 const unsubscribe = async (sensorId) => {
   try {
     const sessionId = localStorage.getItem('sessionId')
-    await axiosInstance.post('/subscription/unsubscribe', {sessionId, sensorId: deviceId})
+    await axiosInstance.post('/subscription/unsubscribe', {sessionId, sensorId})
     await fetchDevice()
     showToast('Unsubscribed successfully', 'success')
   } catch (error) {
