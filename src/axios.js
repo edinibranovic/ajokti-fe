@@ -9,9 +9,9 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     // Ensure all API calls use the base URL
-    if (config.url.startsWith('/api')) {
-      config.url = config.url.replace('/api', '');
-    }
+    // if (config.url.startsWith('/api')) {
+    //   config.url = config.url.replace('/api', '');
+    // }
     return config;
   },
   (error) => {

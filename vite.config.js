@@ -20,7 +20,7 @@ export default defineConfig({
       '/api': {
         target: 'https://iot-backend-latest.onrender.com/',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
+        // rewrite: (path) => path.replace(/^\/api/, ''),
         // base: "/ajokti-fe/"
       },
     },
