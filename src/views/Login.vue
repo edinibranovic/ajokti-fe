@@ -28,7 +28,7 @@
 
 <script setup>
 import {ref} from 'vue'
-import axios from 'axios'
+import axiosInstance from '@/axios.js'
 import {useRouter} from 'vue-router'
 import Toast from 'primevue/toast';
 import 'primevue/resources/themes/saga-blue/theme.css';
@@ -44,7 +44,7 @@ const toast = ref(null)
 const login = async () => {
   isSubmitting.value = true
   try {
-    const response = await axios.post('/api/user/login', {
+    const response = await axiosInstance.post('/api/user/login', {
       email: email.value,
       password: password.value,
     })
