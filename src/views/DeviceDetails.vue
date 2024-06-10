@@ -120,7 +120,7 @@
 <script setup>
 import {onMounted, ref} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
-import axiosInstance from 'axios';
+import axiosInstance from '@/axios.js';
 import {
   ArrowDownCircleIcon,
   ArrowLeftIcon,

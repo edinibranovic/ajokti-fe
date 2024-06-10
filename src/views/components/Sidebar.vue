@@ -65,7 +65,7 @@
 
 <script setup>
 import {onMounted, ref} from 'vue'
-import axiosInstance from 'axios';
+import axiosInstance from '@/axios.js';
 import {useRouter} from 'vue-router'
 import {ChartBarIcon, DeviceTabletIcon, HomeIcon, UserCircleIcon} from '@heroicons/vue/24/outline'
 import Toast from 'primevue/toast';

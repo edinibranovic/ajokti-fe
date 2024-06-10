@@ -42,7 +42,7 @@
 
 <script setup>
 import {ref} from 'vue'
-import axiosInstance from 'axios';
+import axiosInstance from '@/axios.js';
 import {useRouter} from 'vue-router'
 import {useField, useForm} from 'vee-validate'
 import * as yup from 'yup'

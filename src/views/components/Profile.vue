@@ -17,7 +17,7 @@
 <script setup>
 import {onMounted, ref} from 'vue';
 import {useRouter} from 'vue-router';
-import axiosInstance from 'axios';
+import axiosInstance from '@/axios.js';
 import Toast from 'primevue/toast';
 import Button from 'primevue/button';
 
