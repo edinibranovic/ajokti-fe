@@ -1,7 +1,7 @@
 <template>
   <div class="flex text-black flex-col justify-center items-center min-h-screen bg-gray-100">
     <form @submit.prevent="login" class="bg-white p-6 rounded shadow-md w-80">
-      <h2 class="text-2xl mb-4">Logins</h2>
+      <h2 class="text-2xl mb-4">Login</h2>
       <div class="mb-4">
         <label class="block mb-1">Email</label>
         <input v-model="email" type="email" class="w-full px-4 py-2 border rounded" required>
