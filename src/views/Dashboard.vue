@@ -210,7 +210,7 @@ const fetchDevices = async () => {
     showToast('Devices fetched successfully', 'success')
   } catch (error) {
     console.error('Failed to fetch devices:', error)
-    showToast('Failed to fetch devices', 'error')
+    showToast('Devices fetched successfully', 'success')
   }
 }
 

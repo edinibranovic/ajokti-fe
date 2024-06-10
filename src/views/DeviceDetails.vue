@@ -183,8 +183,8 @@ const fetchDevice = async () => {
         color: getRandomColor()
       }
       await fetchSubscribedDevices(sessionId)
-      const roleResponse = await axiosInstance.post('/user/getRole', {sessionId})
-      isAdmin.value = roleResponse.data.role
+      // const roleResponse = await axiosInstance.post('/user/getRole', {sessionId})
+      // isAdmin.value = roleResponse.data.role
       showToast('Device details fetched successfully', 'success')
     } else {
       const measurements = await fetchMeasurements(deviceId)
@@ -199,6 +199,18 @@ const fetchDevice = async () => {
     showToast('Failed to fetch device details', 'error')
   }
 }
+
+const fetchRole = async () => {
+  const sessionId = localStorage.getItem('sessionId')
+  if (sessionId) {
+    try {
+      const response = await axiosInstance.post('/user/getRole', {sessionId});
+      isAdmin.value = response.data.role;
+    } catch (error) {
+      toast.value.add({severity: 'error', summary: 'Error', detail: 'Failed to fetch role', life: 3000});
+    }
+  }
+};
 
 const fetchMeasurements = async (deviceId) => {
   try {
@@ -309,8 +321,9 @@ const isSubscribed = (sensorId) => {
   return subscribedDevices.value.includes(sensorId)
 }
 
-onMounted(async () => {
-  await fetchDevice()
+onMounted(() => {
+  fetchRole()
+  fetchDevice()
 })
 </script>
 
