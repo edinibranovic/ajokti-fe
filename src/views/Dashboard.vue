@@ -205,7 +205,7 @@ const fetchDevices = async () => {
       showMeasurements: false,
       measurements: await fetchMeasurements(device.sensorId)
     })))
-    const roleResponse = await axiosInstance.post('/user/getRole', {sessionId}, {baseURL: '/'})
+    const roleResponse = await axiosInstance.post('/user/getRole', {sessionId})
     isAdmin.value = roleResponse.data.role === 'ADMIN'
     showToast('Devices fetched successfully', 'success')
   } catch (error) {

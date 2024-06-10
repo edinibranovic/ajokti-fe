@@ -58,12 +58,12 @@
             <BellIcon class="h-5 w-5 mr-1"/>
             Subscribe
           </button>
-          <button v-if="isAdmin" @click="removeDevice(deviceId)"
+          <button v-if="isAdmin === 'ADMIN'" @click="removeDevice(deviceId)"
                   class="bg-red-500 py-1 px-2 rounded text-white flex items-center">
             <TrashIcon class="h-5 w-5 mr-1"/>
             Remove
           </button>
-          <button v-if="isAdmin" @click="getDeviceKey(device.sensorId)"
+          <button v-if="isAdmin === 'ADMIN'" @click="getDeviceKey(device.sensorId)"
                   class="bg-green-500 py-1 px-2 rounded text-white flex items-center">
             <KeyIcon class="h-5 w-5 mr-1"/>
             Get Key
@@ -143,7 +143,7 @@ const router = useRouter()
 const deviceId = route.params.id
 
 const device = ref(null)
-const isAdmin = ref(false)
+const isAdmin = ref('')
 const isLoggedIn = ref(false)
 const subscribedDevices = ref([])
 const keyDialogVisible = ref(false)
@@ -184,7 +184,7 @@ const fetchDevice = async () => {
       }
       await fetchSubscribedDevices(sessionId)
       const roleResponse = await axiosInstance.post('/user/getRole', {sessionId})
-      isAdmin.value = roleResponse.data.role === 'ADMIN'
+      isAdmin.value = roleResponse.data.role
       showToast('Device details fetched successfully', 'success')
     } else {
       const measurements = await fetchMeasurements(deviceId)
