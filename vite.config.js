@@ -14,5 +14,15 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
-  }
+  },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://iot-backend-latest.onrender.com/',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+        // base: "/ajokti-fe/"
+      },
+    },
+  },
 })
