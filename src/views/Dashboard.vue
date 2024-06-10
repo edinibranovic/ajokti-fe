@@ -216,7 +216,7 @@ const fetchDevices = async () => {
 
 const fetchMeasurements = async (sensorId) => {
   try {
-    const response = await axiosInstance.get(`/api/measurement/get/${sensorId}`)
+    const response = await axiosInstance.get(`/measurement/get/${sensorId}`)
     return response.data
   } catch (error) {
     console.error('Failed to fetch measurements:', error)
@@ -294,7 +294,7 @@ const confirmAddDevice = async () => {
 const toggleMeasurements = async (device) => {
   if (!device.showMeasurements) {
     try {
-      const response = await axiosInstance.get(`/api/measurement/get/${device.sensorId}`)
+      const response = await axiosInstance.get(`/measurement/get/${device.sensorId}`)
       device.measurements = response.data
       device.showMeasurements = true
     } catch (error) {
@@ -308,7 +308,7 @@ const toggleMeasurements = async (device) => {
 
 const refreshMeasurements = async (device) => {
   try {
-    const response = await axiosInstance.get(`/api/measurement/get/${device.sensorId}`)
+    const response = await axiosInstance.get(`/measurement/get/${device.sensorId}`)
     device.measurements = response.data
     showToast('Measurements refreshed successfully', 'success')
   } catch (error) {

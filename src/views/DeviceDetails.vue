@@ -202,7 +202,7 @@ const fetchDevice = async () => {
 
 const fetchMeasurements = async (deviceId) => {
   try {
-    const response = await axiosInstance.get(`/api/measurement/get/${deviceId}`)
+    const response = await axiosInstance.get(`/measurement/get/${deviceId}`)
     return response.data
   } catch (error) {
     console.error('Failed to fetch measurements:', error)
