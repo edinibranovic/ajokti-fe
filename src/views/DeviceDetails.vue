@@ -193,6 +193,7 @@ const fetchDevice = async () => {
         measurements,
         color: getRandomColor()
       }
+      device.value.name=measurements.name
     }
   } catch (error) {
     console.error('Failed to fetch device details:', error)
@@ -237,6 +238,7 @@ const refreshMeasurements = async () => {
   try {
     const measurements = await fetchMeasurements(deviceId)
     device.value.measurements = measurements
+    device.value.name=measurements.name
     showToast('Measurements refreshed successfully', 'success')
   } catch (error) {
     console.error('Failed to refresh measurements:', error)
@@ -292,7 +294,7 @@ const removeDevice = async (sensorId) => {
 const getDeviceKey = async (sensorId) => {
   try {
     const sessionId = localStorage.getItem('sessionId')
-    const response = await axiosInstance.post('/sensor/getKey', {sessionId, sensorId})
+    const response = await axiosInstance.post('/sensor/getKey', {sessionId, sensorId:deviceId})
     sensorKey.value = response.data.key
     deviceIdForKey.value = sensorId
     keyDialogVisible.value = true
