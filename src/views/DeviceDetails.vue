@@ -182,6 +182,7 @@ const fetchDevice = async () => {
         measurements: await fetchMeasurements(deviceId),
         color: getRandomColor()
       }
+      device.value.name=deviceData.name
       await fetchSubscribedDevices(sessionId)
       // const roleResponse = await axiosInstance.post('/user/getRole', {sessionId})
       // isAdmin.value = roleResponse.data.role
