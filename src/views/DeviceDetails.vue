@@ -172,6 +172,7 @@ const onToastTransitionEnd = () => {
 
 const fetchDevice = async () => {
   try {
+    const measurements = await fetchMeasurements(deviceId)
     const sessionId = localStorage.getItem('sessionId')
     if (sessionId) {
       isLoggedIn.value = true
@@ -179,22 +180,21 @@ const fetchDevice = async () => {
       const deviceData = response.data.find(device => device.sensorId === deviceId)
       device.value = {
         ...deviceData,
+        name:measurements[0]?.name,
         measurements: await fetchMeasurements(deviceId),
         color: getRandomColor()
       }
-      device.value.name=deviceData.name
       await fetchSubscribedDevices(sessionId)
       // const roleResponse = await axiosInstance.post('/user/getRole', {sessionId})
       // isAdmin.value = roleResponse.data.role
       showToast('Device details fetched successfully', 'success')
     } else {
-      const measurements = await fetchMeasurements(deviceId)
       device.value = {
         sensorId: deviceId,
+        name:measurements[0]?.name,
         measurements,
         color: getRandomColor()
       }
-      device.value.name=measurements.name
     }
   } catch (error) {
     console.error('Failed to fetch device details:', error)
@@ -217,7 +217,6 @@ const fetchRole = async () => {
 const fetchMeasurements = async (deviceId) => {
   try {
     const response = await axiosInstance.get(`/measurement/get/${deviceId}`)
-    device.value.name=response.data.name
     return response.data
   } catch (error) {
     console.error('Failed to fetch measurements:', error)
@@ -240,7 +239,6 @@ const refreshMeasurements = async () => {
   try {
     const measurements = await fetchMeasurements(deviceId)
     device.value.measurements = measurements
-    device.value.name=measurements.name
     showToast('Measurements refreshed successfully', 'success')
   } catch (error) {
     console.error('Failed to refresh measurements:', error)
