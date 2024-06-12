@@ -172,7 +172,9 @@ const onToastTransitionEnd = () => {
 
 const fetchDevice = async () => {
   try {
-    const measurements = await fetchMeasurements(deviceId)
+    const measurements= await fetchMeasurements(deviceId)
+    const allDevices = await axiosInstance.get('/sensor/all');
+    const deviceName= allDevices.data.find(device=>device.sensorId===deviceId)?.name
     const sessionId = localStorage.getItem('sessionId')
     if (sessionId) {
       isLoggedIn.value = true
@@ -180,8 +182,8 @@ const fetchDevice = async () => {
       const deviceData = response.data.find(device => device.sensorId === deviceId)
       device.value = {
         ...deviceData,
-        name:measurements[0]?.name,
-        measurements: await fetchMeasurements(deviceId),
+        name:deviceName,
+        measurements: measurements,
         color: getRandomColor()
       }
       await fetchSubscribedDevices(sessionId)
@@ -191,7 +193,7 @@ const fetchDevice = async () => {
     } else {
       device.value = {
         sensorId: deviceId,
-        name:measurements[0]?.name,
+        name:deviceName,
         measurements,
         color: getRandomColor()
       }
